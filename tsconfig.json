@@ -1,0 +1,6 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+
+  "include": ["src/**/*", "https://unpkg.com/svelthree@latest/dist/svelthree.mjs"],
+  "exclude": ["node_modules/*", "__sapper__/*", "public/*"]
+}
