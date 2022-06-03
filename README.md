@@ -5,9 +5,9 @@
 # 3D Animations
 
 This is a project that focuses on using [Go Fiber](https://docs.gofiber.io/), [Svelthree](https://svelthree.dev/), [Three.js](https://threejs.org/), 
-and [Svelte-Cubed](https://github.com/Rich-Harris/svelte-cubed?ref=madewithsvelte.com) to deliver a website that can run multiple simultaneous 3D animations running at once.
+and [Svelte-Cubed](https://github.com/Rich-Harris/svelte-cubed?ref=madewithsvelte.com) to deliver a website that can run multiple simultaneous 3D animations running at once in an efficient setup. Both Svelte and Go Fiber are designed to deliver web applications with efficiency in mind.
 
-I also used some 3D animations that you can go over in the following sections.
+I also used some 3D animations that you can go over in the [3D animations section](# 3D Animations)
 
 
 ## Get started
@@ -65,7 +65,7 @@ engine := html.New("./templates", ".html")
 From here, we can build the Fiber instance with its ```Views``` engine that will help our template engine render our HTML files.
 ```go
 app := fiber.New(fiber.Config{
-		Views: engine, //set as render engine
+	Views: engine, //set as render engine
 })
 ```
 # Key Components
@@ -298,6 +298,7 @@ commonjs()
 ```
 
 #### Plugin - Typescript
+This plugin is used to integrate Typescript code for the compiler. For my settings, I decided not to generate any sourcemaps when we ran ```npm run build```. I also didn't allow the compiler to use any inline sources for the previous command as well.
 ```js
 typescript({
 	sourceMap: !production,
@@ -305,5 +306,48 @@ typescript({
 })
 ```
 
+#### When not running ```npm run build```
+If we want to refresh the browser on any changes done to the ```public``` folder, then we enable the ```livereload``` for that folder.
+```js
+!production && livereload('public')
+```
+
+#### When we **actually** run ```npm run build```
+When we're set to build for production, we can minify the compiled code using ```terser```.
+```js
+production && terser()
+```
+
+#### Watch
+The screen will not be cleared when a rebuild of your bundle is triggered by any module changes. This is provided by the Svelte template.
+```js
+watch: {
+	clearScreen: false
+}
+```
+
+ # 3D Animations
+ For many of these animations, I found the ones compatible with Svelte. During my research, I discovered multiple projects working to deliver 3D Animations on Svelte. Not all of them share the same libraries, even though they use very similar components. In some of them, they used the [Three.js](https://threejs.org/) library and [Svelte-Cubed](https://svelte-cubed.vercel.app/) library. In others, they used the [Svelthree](https://svelthree.dev/) library. 
+ 
+ 
+ # Issues
+ 
+ ## Environment Setup
+ My main struggle was to incorporate both sets of libraries to work with all these 3D animations. Both didn't want to work when I attempted to install all libraries through [npm](https://www.npmjs.com/) or [pnpm](https://pnpm.io/). I tried different combinations, but due to the complexity of the environment, I decided to install most of my libraries through [npm](https://www.npmjs.com/) and download the [Svelthree](https://svelthree.dev/) library directly to my ```src``` folder. 
+ 
+ ## Go Fiber incorporation
+ Another issue revolved the incorporation of Go Fiber. I thought about separating the animations to seperate HTML sites, but my ```src/main.ts``` file failed to render the animations separately. This is something I wished to fix, but due to time constraints, I wasn't able to accomplish it before my due date. I managed to setup the ```main.go``` file in a simple manner where I incorporate the template render engine to render the HTML files with the compiled 3D animations called by the ```public/build/bundle.js``` file. 
+ 
+ ## Memory Usage
+ This project consumed lots of resourced to compute the simultaneous 3D animations. Even if this built was designed with efficiency in mind, there's limitations on what we can restrict in our animations. I haven't tested my setup to see if using less animations helps and if so, which ones are the most efficient to keep. 
+ 
+ I also discovered that rendering the Trisolaris example found on [Svelte-Cubed](https://svelte-cubed.vercel.app/examples/trisolaris) on a slow PC is barely functional and slow. It's important to have an up-to-date build with decent specs to be able to run at least one 3D animation.
+ 
+ 
+ 
+ 
+ 
+ 
+ 
  
 
