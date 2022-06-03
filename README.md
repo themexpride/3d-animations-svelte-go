@@ -24,6 +24,20 @@ Install the dependencies...
 npm install
 ```
 
+... edit the Three.js ```package.json``` file in ```node_modules/three/package.json``` ...
+```js
+"exports": {
+	".": {
+	"import": "./build/three.module.js",
+	"require": "./build/three.cjs"
+	},
+	"./examples/fonts/*": "./examples/fonts/*",
+	"./examples/jsm/*": "./examples/jsm/*",
+	"./src/*": "./src/*",
+	"./package.json": "./package.json",
+},
+```
+
 ... run the script to setup the [TypeScript](https://www.typescriptlang.org/) development environment ...
 ```bash
 node scripts/setupTypeScript.js
