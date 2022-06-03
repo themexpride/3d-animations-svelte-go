@@ -133,7 +133,7 @@ const app = new App({
 
 export default app;
 ```
-This Typescript file serves to generate the ```App.svelte``` file, with its components, on the ```templates/mainpage.html``` file. It targets the ```<body id="app">``` tag. We make sure we export the ```app``` variable.
+This Typescript file serves to generate the ```App.svelte``` file, with its components, on the ```templates/mainpage.html``` file. It targets the ```<body id="app">``` tag and genereates the ```App.svelte``` file within that tag. We make sure we export the ```app``` variable on the Typescript file.
 
 ## src/svelthree.mjs
 A bundled and minified version of (svelthree)[https://unpkg.com/svelthree@latest/dist/svelthree.mjs] that is used in some of the 3D animations. 
@@ -141,8 +141,169 @@ A bundled and minified version of (svelthree)[https://unpkg.com/svelthree@latest
 Setting the animations that required this file was very difficult since not all components were available through other Node.js libraries. I saved the file on my ```src``` folder to be able to run some of the 3D animations.
 
 ## rollup.config.js
+[Rollup](https://rollupjs.org) serves to compile our ```src``` folder that contains all of our Svelte, JavaScript, and TypeScript code and bundles it into a single minified JavaScript file. It was provided with the Svelte template.
 
+We need lots of Node.js libraries to be able to compile all these different file types together.
 
+### export default
+```js
+export default {
+	input: 'src/main.ts',
+	output: {
+		sourcemap: true,
+		format: 'iife',
+		name: 'app',
+		file: 'public/build/bundle.js'
+	},
+	plugins: [
+		svelte({
+			preprocess: sveltePreprocess({ sourceMap: !production }),
+			compilerOptions: {
+				// enable run-time checks when not in production
+				dev: !production,
+			}, 
+		}),
+		// we'll extract any component CSS out into
+		// a separate file - better for performance
+		css({ output: 'bundle.css' }),
+
+		// If you have external dependencies installed from
+		// npm, you'll most likely need these plugins. In
+		// some cases you'll need additional configuration -
+		// consult the documentation for details:
+		// https://github.com/rollup/plugins/tree/master/packages/commonjs
+		resolve({
+			browser: true,
+			dedupe: ['svelte']
+		}),
+		commonjs(),
+		typescript({
+			sourceMap: !production,
+			inlineSources: !production
+		}),
+
+		// In dev mode, call `npm run start` once
+		// the bundle has been generated
+		//!production && serve(),
+
+		// Watch the `public` directory and refresh the
+		// browser on changes when not in production
+		!production && livereload('public'),
+
+		// If we're building for production (npm run build
+		// instead of npm run dev), minify
+		production && terser()
+	],
+	watch: {
+		clearScreen: false
+	}
+};
+```
+For this section, I will focus a little on how Rollup compiles the ```src``` folder.
+
+#### Input
+The first important part is to setup the input file provided by ```src/main.ts```. 
+```js
+input: 'src/main.ts'
+```
+Since most of our files are setup on ```src/App.svelte```, we only need to import that file to the input file. The rest of the input code will be taken into account by the compiler.
+
+#### Output
+We need to output the compiled code to a file. I setup the output file as ```public/build/bundle.js``` since I didn't want to upload the file to Github. 
+```js
+output: {
+	sourcemap: true,
+	format: 'iife',
+	name: 'app',
+	file: 'public/build/bundle.js'
+}
+```
+I generated a ```sourcemap``` for my compiled JS file for debugging purposes. Personally, haven't used it but can be useful for future development.
+
+#### Plugins
+Rollup uses [plugins](https://rollupjs.org/guide/en/#using-plugins) to have more flexibility with our work environment that we'll compile. They will help the compiler change certain behaviors at some key points of the bundling process.
+```js
+plugins: [
+	svelte({
+		preprocess: sveltePreprocess({ sourceMap: !production }),
+		compilerOptions: {
+			// enable run-time checks when not in production
+			dev: !production,
+		}, 
+	}),
+	// we'll extract any component CSS out into
+	// a separate file - better for performance
+	css({ output: 'bundle.css' }),
+
+	// If you have external dependencies installed from
+	// npm, you'll most likely need these plugins. In
+	// some cases you'll need additional configuration -
+	// consult the documentation for details:
+	// https://github.com/rollup/plugins/tree/master/packages/commonjs
+	resolve({
+		browser: true,
+		dedupe: ['svelte']
+	}),
+	commonjs(),
+	typescript({
+		sourceMap: !production,
+		inlineSources: !production
+	}),
+
+	// In dev mode, call `npm run start` once
+	// the bundle has been generated
+	//!production && serve(),
+
+	// Watch the `public` directory and refresh the
+	// browser on changes when not in production
+	!production && livereload('public'),
+
+	// If we're building for production (npm run build
+	// instead of npm run dev), minify
+	production && terser()
+],
+```
+
+#### Plugin - Svelte
+This plugin is in charge of handling our Svelte code.
+```js
+svelte({
+	preprocess: sveltePreprocess({ sourceMap: !production }),
+	compilerOptions: {
+		// enable run-time checks when not in production
+		dev: !production,
+	}, 
+})
+```
+
+#### Plugin - CSS
+This plugin is to remove the CSS styling from our files to bundle it seperately. It helps with performance according to Svelte template.
+```js
+css({ output: 'bundle.css' })
+```
+
+#### Plugin - Resolve
+This plugin is to handle the external dependencies installed from npm, which is how we install Node.js modules. 
+```js
+resolve({
+	browser: true,
+	dedupe: ['svelte']
+})
+```
+
+#### Plugin - CommonJS
+This plugin is to convert CommonJS modules to ES6 in order to include them in a Rollup bundle.
+```js
+commonjs()
+```
+
+#### Plugin - Typescript
+```js
+typescript({
+	sourceMap: !production,
+	inlineSources: !production
+})
+```
 
  
 
