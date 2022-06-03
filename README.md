@@ -39,11 +39,6 @@ npm install
 },
 ```
 
-... run the script to setup the [TypeScript](https://www.typescriptlang.org/) development environment ...
-```bash
-node scripts/setupTypeScript.js
-```
-
 ...then start [Rollup](https://rollupjs.org) alongside [Go Fiber](https://docs.gofiber.io/)
 
 ```bash
