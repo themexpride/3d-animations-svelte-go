@@ -17,10 +17,7 @@ func main() {
 	})
 	app.Static("/public", "./public")
 	app.Get("/", mainPage)
-	app.Get("/stars", starsPage)
-	app.Get("/octo", octoPage)
-	app.Get("/mesh", meshPage)
-	app.Get("/cube", cubePage)
+
 	app.Get("/time", func(c *fiber.Ctx) error {
 		dt := time.Now()
 		return c.SendString(dt.String())
@@ -29,16 +26,4 @@ func main() {
 }
 func mainPage(c *fiber.Ctx) error {
 	return c.Render("mainpage", nil)
-}
-func octoPage(c *fiber.Ctx) error {
-	return c.Render("octo", nil)
-}
-func starsPage(c *fiber.Ctx) error {
-	return c.Render("stars", nil)
-}
-func meshPage(c *fiber.Ctx) error {
-	return c.Render("mesh_group", nil)
-}
-func cubePage(c *fiber.Ctx) error {
-	return c.Render("cube", nil)
 }

@@ -1,7 +1,4 @@
-
-
 <script>
-
     import {
         Canvas,
         Scene,

@@ -17,7 +17,7 @@
 		rotation={[-Math.PI / 2, 0, 0]}
 	/>
 	<SC.Primitive
-		object={new THREE.GridHelper(SIZE * 2, SIZE * 2, 0xffffdd, 0xffffdd)}
+		object={new THREE.GridHelper(SIZE * 2, SIZE * 2, 0xfcfcfc, 0xfcfcfc)}
 		position={[0, 0.001, 0]}
 	/>
 </SC.Group>
