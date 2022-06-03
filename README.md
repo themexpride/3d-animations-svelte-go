@@ -24,7 +24,7 @@ Install the dependencies...
 npm install
 ```
 
-... edit the Three.js ```package.json``` file in ```node_modules/three/package.json``` ...
+... edit the Three.js ```package.json``` file in ```node_modules/three/package.json``` to export the file ...
 ```js
 "exports": {
 	".": {
@@ -34,6 +34,7 @@ npm install
 	"./examples/fonts/*": "./examples/fonts/*",
 	"./examples/jsm/*": "./examples/jsm/*",
 	"./src/*": "./src/*",
+	// add this
 	"./package.json": "./package.json",
 },
 ```
