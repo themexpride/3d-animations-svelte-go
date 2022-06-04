@@ -1,6 +1,3 @@
-* I mainly relied on the templates and frameworks provided through Svelte, Svelthree, and Go Fiber *
-
----
 
 # 3D Animations on Svelte and Go Fiber
 
