@@ -24,6 +24,23 @@ svg[class*="svelte"] {
 	display: none;
 }
 
+[class*="inputs"] {
+	height: 100px;
+}
+
+.content {
+	font-size: 2rem;
+}
+
+input[id*="stars"] {
+	height: 20px;
+}
+
+input[type*="range"] {
+	width: 300px;
+}
+
+
 a {
 	color: rgb(0,100,200);
 	text-decoration: none;
@@ -188,7 +205,8 @@ button:not(:disabled):active {
 	}
 	canvas {
 		position: relative;
-		padding: 20%;
+		padding-right: 20%;
+		padding-top: 20%;
 		max-width: 1000px !important;
 	}
 	@media screen and (max-width:1023px) {

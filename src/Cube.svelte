@@ -68,7 +68,7 @@
   
   <svelte:options/>
 
-  <Canvas let:sti w={500} h={500} interactive>
+  <Canvas let:sti w={1000} h={1000} interactive>
   
     <Scene {sti} let:scene id="scene1" props={{ background: 0xedf2f7 }}>
   
